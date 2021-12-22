@@ -15,7 +15,11 @@ mix.js('resources/js/app.js', 'public/js')
     .postCss('resources/css/app.css', 'public/css', [
         require('postcss-import'),
         require('tailwindcss'),
-    ]).browserSync('laravel-cms.test:8080');
+    ])
+    .browserSync({
+        port: 8080,
+        proxy: 'laravel-cms.test'
+    });
 
 if (mix.inProduction()) {
     mix.version();
