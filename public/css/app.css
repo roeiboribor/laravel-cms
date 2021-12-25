@@ -1282,6 +1282,9 @@ select {
 .border-b {
   border-bottom-width: 1px;
 }
+.border-r-0 {
+  border-right-width: 0px;
+}
 .border-gray-300 {
   --tw-border-opacity: 1;
   border-color: rgb(209 213 219 / var(--tw-border-opacity));
@@ -1687,6 +1690,13 @@ select {
 }
 .ease-in {
   transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
+}
+.body-content {
+    max-height: 300px !important;
+    overflow-y: auto;
+}
+.trix-button-group--history-tools {
+    display: none !important;
 }
 .hover\:border-gray-300:hover {
   --tw-border-opacity: 1;
