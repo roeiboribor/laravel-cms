@@ -5,23 +5,17 @@ namespace App\Http\Livewire;
 use App\Models\Page;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Pages extends Component
 {
+    use WithPagination;
     public $slug;
     public $title;
     public $content;
+    public $modelId;
+    public $isDelete = false;
     public $modalFormVisible = false;
-
-    /**
-     * Show modal when create button is clicked
-     *
-     * @return void
-     */
-    public function createShowModal()
-    {
-        $this->modalFormVisible = true;
-    }
 
     /**
      * Validation from livewire
@@ -32,9 +26,15 @@ class Pages extends Component
     {
         return [
             'title' => 'required',
-            'slug' => ['required', Rule::unique('pages', 'slug')],
+            'slug' => ['required', Rule::unique('pages', 'slug')->ignore($this->modelId)],
             'content' => 'required',
         ];
+    }
+
+    public function mount()
+    {
+        // Resets the pagination
+        $this->resetPage();
     }
 
     /**
@@ -48,6 +48,12 @@ class Pages extends Component
         $this->generateSlug($value);
     }
 
+    /**
+     * Format the title value into a slug
+     *
+     * @param  mixed $value
+     * @return void
+     */
     public function generateSlug($value)
     {
         $process1 = str_replace(' ', '-', $value);
@@ -55,12 +61,102 @@ class Pages extends Component
         $this->slug = $process2;
     }
 
+    /**
+     * Show modal when create button is clicked
+     *
+     * @return void
+     */
+    public function createShowModal()
+    {
+        $this->resetValidation();
+        $this->clearForm();
+        $this->modalFormVisible = true;
+    }
+
+    /**
+     * update / fill up the modal based on id
+     *
+     * @param  mixed $id
+     * @return void
+     */
+    public function updateShowModal($id)
+    {
+        $this->resetValidation();
+        $this->clearForm();
+        $this->modelId = $id;
+        $this->modalFormVisible = true;
+        $this->loadModel();
+    }
+
+    /**
+     * Show Delete Modal Content
+     *
+     * @param  mixed $id
+     * @return void
+     */
+    public function deleteShowModal($id)
+    {
+        $this->modelId = $id;
+        $this->modalFormVisible = true;
+        $this->isDelete = true;
+    }
+
+    /**
+     * Create / Insert new page data
+     *
+     * @return void
+     */
     public function createPage()
     {
         $this->validate();
         Page::create($this->modelData());
         $this->modalFormVisible = false;
         $this->clearForm();
+    }
+
+    /**
+     * Get all the Page table
+     *
+     * @return void
+     */
+    public function readPage()
+    {
+        return Page::paginate(10);
+    }
+
+    /**
+     * Update the form
+     *
+     * @return void
+     */
+    public function updatePage()
+    {
+        $this->validate();
+        Page::find($this->modelId)->update($this->modelData());
+        $this->modalFormVisible = false;
+        $this->clearForm();
+    }
+
+    public function deletePage()
+    {
+        Page::destroy($this->modelId);
+        $this->modalFormVisible = false;
+        $this->resetPage();
+        $this->clearForm();
+    }
+
+    /**
+     * Clear the form field
+     *
+     * @return void
+     */
+    public function clearForm()
+    {
+        $this->title = null;
+        $this->slug = null;
+        $this->content = null;
+        $this->modelId = null;
+        $this->isDelete = false;
     }
 
     /**
@@ -77,15 +173,23 @@ class Pages extends Component
         ];
     }
 
-    public function clearForm()
+    /**
+     * Loads the data based on modalId
+     *
+     * @return void
+     */
+    public function loadModel()
     {
-        $this->title = null;
-        $this->slug = null;
-        $this->content = null;
+        $data = Page::find($this->modelId);
+        $this->title = $data->title;
+        $this->slug = $data->slug;
+        $this->content = $data->content;
     }
 
     public function render()
     {
-        return view('livewire.pages');
+        return view('livewire.pages', [
+            'data' => $this->readPage()
+        ]);
     }
 }
