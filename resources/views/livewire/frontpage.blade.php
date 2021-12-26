@@ -1,3 +1,4 @@
 <div>
-    {{-- In work, do what you enjoy. --}}
+    <h1>{{ $title }}</h1>
+    {!! $content !!}
 </div>

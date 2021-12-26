@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::group(['middleware' => [
     'auth:sanctum',
@@ -31,4 +31,5 @@ Route::group(['middleware' => [
 });
 
 
-Route::get('/{url-slug}', [Frontpage::class]);
+Route::get('/{urlslug}', Frontpage::class);
+Route::get('/', Frontpage::class);
