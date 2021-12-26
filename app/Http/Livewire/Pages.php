@@ -14,6 +14,8 @@ class Pages extends Component
     public $title;
     public $content;
     public $modelId;
+    public $isSetToDefaultHomePage;
+    public $isSetToDefaultNotFound;
     public $isDelete = false;
     public $modalFormVisible = false;
 
