@@ -14,10 +14,9 @@ class Pages extends Component
     public $title;
     public $content;
     public $modelId;
-    public $isSetToDefaultHomePage;
-    public $isSetToDefaultNotFound;
+    public $defaultPage;
     public $isDelete = false;
-    public $modalFormVisible = false;
+    public $modalFormVisible = true;
 
     /**
      * Validation from livewire
@@ -172,6 +171,7 @@ class Pages extends Component
             'title' => $this->title,
             'slug' => $this->slug,
             'content' => $this->content,
+            'default_page' => $this->defaultPage,
         ];
     }
 

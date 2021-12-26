@@ -33,6 +33,10 @@
                             <tr>
                                 <td class="px-6 py-4 text-sm whitespace-no-wrap">
                                     {{ $item->title }}
+                                    {!! $item->is_default_home ? '<span
+                                        class="text-green-400 text-xs font-bold">[Default Home Page]</span>':'' !!}
+                                    {!! $item->is_default_not_found ? '<span
+                                        class="text-red-400 text-xs font-bold">[Default 404 Error]</span>':'' !!}
                                 </td>
                                 <td class="px-6 py-4 text-sm whitespace-no-wrap">
                                     <a class="text-indigo-600 hover:text-indigo-900" target="_blank" href="{{ url("/$item->slug") }}">
@@ -106,6 +110,28 @@
                 </div>
                 @error('slug') <span class="text-red-500">{{ $message }}</span> @enderror
             </div>
+            <div class="mt-4 flex items-center">
+                <x-jet-label for="defaultPage" value="{{ __('Default Page') }}" />
+                <select id="defaultPage"
+                    class="mx-auto w-1/2 rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 shadow-sm"
+                    wire:model="defaultPage">
+                    <option value="">None</option>
+                    <option value="home">Home page</option>
+                    <option value="error">404 Error</option>
+                </select>
+                {{-- <label>
+                    <input class="form-checkbox" type="radio" value="{{ $isSetToDefaultHomePage }}"
+                        wire:model="isSetToDefaultHomePage">
+                    <span class="ml-2 text-sm text-gray-600">Set as Default Home Page</span>
+                </label> --}}
+            </div>
+            {{-- <div class="mt-4">
+                <label>
+                    <input class="form-checkbox" type="[radio]" value="{{ $isSetToDefaultNotFound }}"
+                        wire:model="isSetToDefaultNotFound">
+                    <span class="ml-2 text-sm text-red-600">Set as Default 404 error Page</span>
+                </label>
+            </div> --}}
             <div class="mt-4">
                 <x-jet-label for="title" value="{{ __('Content') }}" />
                 <div class="rounded-md shadow-sm">
