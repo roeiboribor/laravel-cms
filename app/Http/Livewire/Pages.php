@@ -47,7 +47,7 @@ class Pages extends Component
      */
     public function updatedTitle($value)
     {
-        Str::slug($value);
+        $this->slug = Str::slug($value);
     }
 
     /**
