@@ -10,14 +10,21 @@ class Frontpage extends Component
     public $title;
     public $content;
 
-    public function mount($urlslug)
+    public function mount($urlslug = null)
     {
         $this->retrieveContent($urlslug);
     }
 
     public function retrieveContent($urlSlug)
     {
-        $data = Page::where('slug', $urlSlug)->first();
+        if (empty($urlSlug)) {
+            $data = Page::where('default_page', 'home')->first();
+        } else {
+            $data = Page::where('slug', $urlSlug)->first();
+            $data = $data ??
+                Page::where('default_page', 'error')->first();;
+        }
+
         $this->title = $data->title;
         $this->content = $data->content;
     }

@@ -6,6 +6,7 @@ use App\Models\Page;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Str;
 
 class Pages extends Component
 {
@@ -46,21 +47,21 @@ class Pages extends Component
      */
     public function updatedTitle($value)
     {
-        $this->generateSlug($value);
+        Str::slug($value);
     }
 
     /**
-     * Format the title value into a slug
+     * Format the title value into a slug / Manual Generate Slug
      *
      * @param  mixed $value
      * @return void
      */
-    public function generateSlug($value)
-    {
-        $process1 = str_replace(' ', '-', $value);
-        $process2 = strtolower($process1);
-        $this->slug = $process2;
-    }
+    // public function generateSlug($value)
+    // {
+    //     $process1 = str_replace(' ', '-', $value);
+    //     $process2 = strtolower($process1);
+    //     $this->slug = $process2;
+    // }
 
     /**
      * Show modal when create button is clicked
@@ -70,7 +71,7 @@ class Pages extends Component
     public function createShowModal()
     {
         $this->resetValidation();
-        $this->clearForm();
+        $this->reset();
         $this->modalFormVisible = true;
     }
 
@@ -83,7 +84,7 @@ class Pages extends Component
     public function updateShowModal($id)
     {
         $this->resetValidation();
-        $this->clearForm();
+        $this->reset();
         $this->modelId = $id;
         $this->modalFormVisible = true;
         $this->loadModel();
@@ -113,7 +114,7 @@ class Pages extends Component
         $this->unassignDefaultPage();
         Page::create($this->modelData());
         $this->modalFormVisible = false;
-        $this->clearForm();
+        $this->reset();
     }
 
     /**
@@ -123,7 +124,7 @@ class Pages extends Component
      */
     public function readPage()
     {
-        return Page::paginate(10);
+        return Page::orderByDesc('title')->paginate(10);
     }
 
     /**
@@ -137,7 +138,7 @@ class Pages extends Component
         $this->unassignDefaultPage();
         Page::find($this->modelId)->update($this->modelData());
         $this->modalFormVisible = false;
-        $this->clearForm();
+        $this->reset();
     }
 
     public function deletePage()
@@ -145,23 +146,23 @@ class Pages extends Component
         Page::destroy($this->modelId);
         $this->modalFormVisible = false;
         $this->resetPage();
-        $this->clearForm();
+        $this->reset();
     }
 
     /**
-     * Clear the form field
+     * Clear the form field / Reset Manual Function
      *
      * @return void
      */
-    public function clearForm()
-    {
-        $this->title = null;
-        $this->slug = null;
-        $this->content = null;
-        $this->modelId = null;
-        $this->isDelete = false;
-        $this->defaultPage = null;
-    }
+    // public function clearForm()
+    // {
+    //     $this->title = null;
+    //     $this->slug = null;
+    //     $this->content = null;
+    //     $this->modelId = null;
+    //     $this->isDelete = false;
+    //     $this->defaultPage = null;
+    // }
 
     /**
      * The data for the model
