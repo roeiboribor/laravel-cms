@@ -16,7 +16,7 @@ class Pages extends Component
     public $modelId;
     public $defaultPage;
     public $isDelete = false;
-    public $modalFormVisible = true;
+    public $modalFormVisible = false;
 
     /**
      * Validation from livewire
@@ -110,6 +110,7 @@ class Pages extends Component
     public function createPage()
     {
         $this->validate();
+        $this->unassignDefaultPage();
         Page::create($this->modelData());
         $this->modalFormVisible = false;
         $this->clearForm();
@@ -133,6 +134,7 @@ class Pages extends Component
     public function updatePage()
     {
         $this->validate();
+        $this->unassignDefaultPage();
         Page::find($this->modelId)->update($this->modelData());
         $this->modalFormVisible = false;
         $this->clearForm();
@@ -158,6 +160,7 @@ class Pages extends Component
         $this->content = null;
         $this->modelId = null;
         $this->isDelete = false;
+        $this->defaultPage = null;
     }
 
     /**
@@ -186,6 +189,23 @@ class Pages extends Component
         $this->title = $data->title;
         $this->slug = $data->slug;
         $this->content = $data->content;
+        $this->defaultPage = $data->default_page;
+    }
+
+    /**
+     * Un Assign the default page
+     *
+     * @return void
+     */
+    private function unassignDefaultPage()
+    {
+        if ($this->defaultPage != null) {
+
+            Page::where('default_page', $this->defaultPage)
+                ->update([
+                    'default_page' => null
+                ]);
+        }
     }
 
     public function render()

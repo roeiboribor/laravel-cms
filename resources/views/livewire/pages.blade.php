@@ -33,10 +33,21 @@
                             <tr>
                                 <td class="px-6 py-4 text-sm whitespace-no-wrap">
                                     {{ $item->title }}
-                                    {!! $item->is_default_home ? '<span
-                                        class="text-green-400 text-xs font-bold">[Default Home Page]</span>':'' !!}
-                                    {!! $item->is_default_not_found ? '<span
-                                        class="text-red-400 text-xs font-bold">[Default 404 Error]</span>':'' !!}
+                                    @php
+                                    switch ($item->default_page) {
+                                    case 'home':
+                                    echo '<span class="text-green-400 text-xs font-bold">[Default
+                                        Home Page]</span>';
+                                    break;
+                                    case 'error':
+                                    echo '<span class="text-red-400 text-xs font-bold">[Default
+                                        404 Error Page]</span>';
+                                    break;
+                                    default:
+                                    echo '';
+                                    break;
+                                    }
+                                    @endphp
                                 </td>
                                 <td class="px-6 py-4 text-sm whitespace-no-wrap">
                                     <a class="text-indigo-600 hover:text-indigo-900" target="_blank" href="{{ url("/$item->slug") }}">
