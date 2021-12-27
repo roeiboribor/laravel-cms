@@ -55,7 +55,7 @@
                                     </a>
                                 </td>
                                 <td class="px-6 py-4 text-sm whitespace-no-wrap">
-                                    {!! $item->content !!}
+                                    {!! \Illuminate\Support\Str::limit($item->content,50,'...') !!}
                                 </td>
                                 <td class="px-6 py-4 text-right text-sm">
                                     <x-jet-button wire:click="updateShowModal({{ $item->id }})">
@@ -130,19 +130,7 @@
                     <option value="home">Home page</option>
                     <option value="error">404 Error</option>
                 </select>
-                {{-- <label>
-                    <input class="form-checkbox" type="radio" value="{{ $isSetToDefaultHomePage }}"
-                        wire:model="isSetToDefaultHomePage">
-                    <span class="ml-2 text-sm text-gray-600">Set as Default Home Page</span>
-                </label> --}}
             </div>
-            {{-- <div class="mt-4">
-                <label>
-                    <input class="form-checkbox" type="[radio]" value="{{ $isSetToDefaultNotFound }}"
-                        wire:model="isSetToDefaultNotFound">
-                    <span class="ml-2 text-sm text-red-600">Set as Default 404 error Page</span>
-                </label>
-            </div> --}}
             <div class="mt-4">
                 <x-jet-label for="title" value="{{ __('Content') }}" />
                 <div class="rounded-md shadow-sm">

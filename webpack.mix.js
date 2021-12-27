@@ -16,7 +16,7 @@ mix.js('resources/js/app.js', 'public/js')
         require('postcss-import'),
         require('tailwindcss'),
     ])
-    .browserSync('laravel-cms.test');
+    .browserSync('http://laravel-cms.test');
 
 if (mix.inProduction()) {
     mix.version();
