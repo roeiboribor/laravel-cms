@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateNavigationMenusesTable extends Migration
+class CreateNavigationMenusTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateNavigationMenusesTable extends Migration
      */
     public function up()
     {
-        Schema::create('navigation_menuses', function (Blueprint $table) {
+        Schema::create('navigation_menus', function (Blueprint $table) {
             $table->id();
             $table->integer('sequence');
             $table->enum('type', ['sidebarNav', 'TopNav']);
@@ -30,6 +30,6 @@ class CreateNavigationMenusesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('navigation_menuses');
+        Schema::dropIfExists('navigation_menus');
     }
 }
