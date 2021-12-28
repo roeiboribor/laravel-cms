@@ -12,7 +12,7 @@
             </button>
         </div>
         <div class="h-12 w-full flex items-center">
-            <a href=" {{ url('/') }}" class="w-full">
+            <a href=" {{ url('/dashboard') }}" class="w-full">
                 <img class="h-8" src="{{ asset('img/orig.svg') }}" alt="Logo">
             </a>
         </div>
