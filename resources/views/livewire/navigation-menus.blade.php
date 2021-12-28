@@ -77,7 +77,7 @@
     </div>
 
     <br />
-    {{-- {{ $data->links() }} --}}
+    {{ $data->links() }}
 
     {{-- Modal Form --}}
     <x-jet-dialog-modal wire:model="modalFormVisible">
@@ -92,14 +92,14 @@
         </x-slot>
 
         <x-slot name="content">
-            {{-- @if ($isDelete)
+            @if ($isDelete)
             {{ __('Are you sure you want to delete this navigation item?') }}
             @else
             <div class="mt-4">
-                <x-jet-label for="title" value="{{ __('Title') }}" />
-                <x-jet-input id="title" class="block mt-1 w-full" type="text" wire:model.debounce.800ms="title"
+                <x-jet-label for="label" value="{{ __('Label') }}" />
+                <x-jet-input id="label" class="block mt-1 w-full" type="text" wire:model.debounce.500ms="label"
                     required />
-                @error('title') <span class="text-red-500">{{ $message }}</span> @enderror
+                @error('label') <span class="text-red-500">{{ $message }}</span> @enderror
             </div>
             <div class="mt-4">
                 <x-jet-label for="slug" value="{{ __('Slug') }}" />
@@ -114,30 +114,24 @@
                 </div>
                 @error('slug') <span class="text-red-500">{{ $message }}</span> @enderror
             </div>
-            <div class="mt-4 flex items-center">
-                <x-jet-label for="defaultPage" value="{{ __('Default Page') }}" />
-                <select id="defaultPage"
-                    class="mx-auto w-1/2 rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 shadow-sm"
-                    wire:model="defaultPage">
-                    <option value="">None</option>
-                    <option value="home">Home page</option>
-                    <option value="error">404 Error</option>
-                </select>
-            </div>
-            <div class="mt-4">
-                <x-jet-label for="title" value="{{ __('Content') }}" />
-                <div class="rounded-md shadow-sm">
-                    <div class="mt-1 bg-white">
-                        <div class="body-content" wire:ignore>
-                            <trix-editor class="trix-content" x-ref="trix" wire:model.debounce.100000ms="content"
-                                wire:key="trix-content-unique-key">
-                            </trix-editor>
-                        </div>
-                    </div>
+            <div class="mt-4 flex items-center space-x-4">
+                <div class="flex-1">
+                    <x-jet-label for="type" value="{{ __('Type') }}" />
+                    <select id="type"
+                        class="mx-auto text-center appearance-none w-full mt-1 rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 shadow-sm"
+                        wire:model="type">
+                        <option value="SidebarNav">SidebarNav</option>
+                        <option value="TopNav">TopNav</option>
+                    </select>
                 </div>
-                @error('content') <span class="text-red-500">{{ $message }}</span> @enderror
+                <div class="flex-1">
+                    <x-jet-label for="sequence" value="{{ __('Sequence') }}" />
+                    <x-jet-input id="sequence" class="block mt-1 w-full text-center" type="text"
+                        wire:model.debounce.800ms="sequence" required />
+                    @error('sequence') <span class="text-red-500">{{ $message }}</span> @enderror
+                </div>
             </div>
-            @endif --}}
+            @endif
         </x-slot>
 
         <x-slot name="footer">
@@ -146,15 +140,15 @@
             </x-jet-secondary-button>
 
             @if ($isDelete)
-            <x-jet-danger-button class="ml-2" wire:click="deletePage" wire:loading.attr="disabled">
+            <x-jet-danger-button class="ml-2" wire:click="delete" wire:loading.attr="disabled">
                 {{ __('Delete') }}
             </x-jet-danger-button>
             @elseif($modelId)
-            <x-jet-button class="ml-2" wire:click="updatePage" wire:loading.attr="disabled">
+            <x-jet-button class="ml-2" wire:click="update" wire:loading.attr="disabled">
                 {{ __('Update') }}
             </x-jet-button>
             @else
-            <x-jet-button class="ml-2" wire:click="createPage" wire:loading.attr="disabled">
+            <x-jet-button class="ml-2" wire:click="create" wire:loading.attr="disabled">
                 {{ __('Save') }}
             </x-jet-button>
             @endif

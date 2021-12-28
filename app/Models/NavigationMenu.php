@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class NavigationMenu extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'label',
+        'slug',
+        'type',
+        'sequence',
+    ];
 }

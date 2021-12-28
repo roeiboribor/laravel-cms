@@ -16,7 +16,7 @@ class CreateNavigationMenusTable extends Migration
         Schema::create('navigation_menus', function (Blueprint $table) {
             $table->id();
             $table->integer('sequence');
-            $table->enum('type', ['sidebarNav', 'TopNav']);
+            $table->enum('type', ['SidebarNav', 'TopNav']);
             $table->string('label');
             $table->string('slug');
             $table->timestamps();
