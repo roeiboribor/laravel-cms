@@ -33,7 +33,7 @@ Route::group(['middleware' => [
         return view('admin.navigation-menus');
     })->name('navigation-menus');
 
-    // 
+    // CRUD GENERATOR
     Route::get('/users', function () {
         return view('admin.users');
     })->name('users');
