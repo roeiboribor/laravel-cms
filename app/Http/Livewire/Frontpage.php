@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\NavigationMenu;
 use App\Models\Page;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class Frontpage extends Component
@@ -29,8 +31,32 @@ class Frontpage extends Component
         $this->content = $data->content;
     }
 
+    /**
+     * Get All Sidebar Links
+     *
+     * @return void
+     */
+    private function sideBarLinks()
+    {
+        return NavigationMenu::where('type', 'SidebarNav')->get();
+    }
+
+    /**
+     * Get All Sidebar Links
+     *
+     * @return void
+     */
+    private function topNavLinks()
+    {
+        return NavigationMenu::where('type', 'TopNav')->get();
+    }
+
     public function render()
     {
-        return view('livewire.frontpage')->layout('layouts.frontpage');
+        return view('livewire.frontpage', [
+            'sidebarLinks' => $this->sideBarLinks(),
+            'topNavLinks' => $this->topNavLinks(),
+        ])
+            ->layout('layouts.frontpage');
     }
 }

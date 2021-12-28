@@ -18,10 +18,14 @@
         </div>
         <div class="flex justify-end sm:w-8/12">
             {{-- Top Navigation --}}
-            <ul class="hidden sm:block sm:text-left text-gray-200 text-xs">
-                <a href="{{ route('login') }}">
-                    <li class="cursor-pointer px-4 py-2 hover:underline">Login</li>
+            <ul class="hidden sm:flex sm:text-left text-gray-200 text-xs">
+                @if ($topNavLinks->count())
+                @foreach ($topNavLinks as $item)
+                <a href="{{ url('/'.$item->slug) }}">
+                    <li class="cursor-pointer px-4 py-2 hover:underline">{{ $item->label }}</li>
                 </a>
+                @endforeach
+                @endif
             </ul>
         </div>
     </nav>
@@ -29,38 +33,40 @@
         <aside class="bg-gray-900 text-gray-700 sm:w-4/12 md:w-3/12 lg:w-2/12 divide-y divide-gray-700 divide-dashed">
             {{-- Desktop web View --}}
             <ul class="hidden sm:block text-gray-200 text-xs sm:text-left">
-                <a href="{{ url('/home') }}">
-                    <li class="cursor-pointer px-4 py-2 transition duration-300 hover:bg-gray-800">Home</li>
+                @if ($sidebarLinks->count())
+                @foreach ($sidebarLinks as $item)
+                <a href="{{ url('/'.$item->slug) }}">
+                    <li class="cursor-pointer px-4 py-2 transition duration-300 hover:bg-gray-800">{{ $item->label }}
+                    </li>
                 </a>
-                <a href="{{ url('/About') }}">
-                    <li class="cursor-pointer px-4 py-2 transition duration-300 hover:bg-gray-800">About</li>
-                </a>
-                <a href="{{ url('/contact') }}">
-                    <li class="cursor-pointer px-4 py-2 transition duration-300 hover:bg-gray-800">Contact</li>
-                </a>
+                @endforeach
+                @endif
             </ul>
 
             {{-- Mobile web View --}}
             <div x-show="show" class="pb-3 divide-y divide-gray-800 block sm:hidden">
                 <ul class="text-gray-200 text-xs">
-                    <a href="{{ url('/home') }}">
-                        <li class="cursor-pointer px-4 py-2 transition duration-300 hover:bg-gray-800">Home</li>
+                    @if ($sidebarLinks->count())
+                    @foreach ($sidebarLinks as $item)
+                    <a href="{{ url('/'.$item->slug) }}">
+                        <li class="cursor-pointer px-4 py-2 transition duration-300 hover:bg-gray-800">{{ $item->label
+                            }}</li>
                     </a>
-                    <a href="{{ url('/about') }}">
-                        <li class="cursor-pointer px-4 py-2 transition duration-300 hover:bg-gray-800">About</li>
-                    </a>
-                    <a href="{{ url('/contact') }}">
-                        <li class="cursor-pointer px-4 py-2 transition duration-300 hover:bg-gray-800">Contact</li>
-                    </a>
+                    @endforeach
+                    @endif
                 </ul>
 
                 {{-- Top Navigation Mobile Web View --}}
                 <ul class="text-gray-200 text-xs">
-                    <a href="{{ url('/login') }}">
+                    @if ($sidebarLinks->count())
+                    @foreach ($sidebarLinks as $item)
+                    <a href="{{ url('/'.$item->slug) }}">
                         <li class="cursor-pointer px-4 py-2 hover:bg-gray-800">
-                            Login
+                            {{ $item->label }}
                         </li>
                     </a>
+                    @endforeach
+                    @endif
                 </ul>
             </div>
         </aside>
