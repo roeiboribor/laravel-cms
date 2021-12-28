@@ -35,34 +35,22 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            {{-- @if ($data->count())
+                            @if ($data->count())
                             @foreach ($data as $item)
                             <tr>
                                 <td class="px-6 py-4 text-sm whitespace-no-wrap">
-                                    {{ $item->title }}
-                                    @php
-                                    switch ($item->default_page) {
-                                    case 'home':
-                                    echo '<span class="text-green-400 text-xs font-bold">[Default
-                                        Home Page]</span>';
-                                    break;
-                                    case 'error':
-                                    echo '<span class="text-red-400 text-xs font-bold">[Default
-                                        404 Error Page]</span>';
-                                    break;
-                                    default:
-                                    echo '';
-                                    break;
-                                    }
-                                    @endphp
+                                    {{ $item->type }}
+                                </td>
+                                <td class="px-6 py-4 text-sm whitespace-no-wrap">
+                                    {{ $item->sequence }}
+                                </td>
+                                <td class="px-6 py-4 text-sm whitespace-no-wrap">
+                                    {{ $item->label }}
                                 </td>
                                 <td class="px-6 py-4 text-sm whitespace-no-wrap">
                                     <a class="text-indigo-600 hover:text-indigo-900" target="_blank" href="{{ url("/$item->slug") }}">
                                         {{ $item->slug }}
                                     </a>
-                                </td>
-                                <td class="px-6 py-4 text-sm whitespace-no-wrap">
-                                    {!! \Illuminate\Support\Str::limit($item->content,50,'...') !!}
                                 </td>
                                 <td class="px-6 py-4 text-right text-sm">
                                     <x-jet-button wire:click="updateShowModal({{ $item->id }})">
@@ -73,7 +61,6 @@
                                     </x-jet-danger-button>
                                 </td>
                             </tr>
-
                             @endforeach
                             @else
                             <tr>
@@ -81,7 +68,7 @@
                                     No Results Found
                                 </td>
                             </tr>
-                            @endif --}}
+                            @endif
                         </tbody>
                     </table>
                 </div>
@@ -95,18 +82,15 @@
     {{-- Modal Form --}}
     <x-jet-dialog-modal wire:model="modalFormVisible">
         <x-slot name="title">
-            {{-- @if ($isDelete)
+            @if ($isDelete)
             {{ __('Delete Page') }}
             @elseif ($modelId)
             {{ __('Update Page') }}
             @else
             {{ __('Save Page') }}
-            @endif --}}
+            @endif
         </x-slot>
-        $table->integer('sequence');
-        $table->enum('type', ['sidebarNav', 'TopNav']);
-        $table->string('label');
-        $table->string('slug');
+
         <x-slot name="content">
             {{-- @if ($isDelete)
             {{ __('Are you sure you want to delete this navigation item?') }}
@@ -157,7 +141,7 @@
         </x-slot>
 
         <x-slot name="footer">
-            {{-- <x-jet-secondary-button wire:click="$toggle('modalFormVisible')" wire:loading.attr="disabled">
+            <x-jet-secondary-button wire:click="$toggle('modalFormVisible')" wire:loading.attr="disabled">
                 {{ __('Cancel') }}
             </x-jet-secondary-button>
 
@@ -173,7 +157,7 @@
             <x-jet-button class="ml-2" wire:click="createPage" wire:loading.attr="disabled">
                 {{ __('Save') }}
             </x-jet-button>
-            @endif --}}
+            @endif
         </x-slot>
     </x-jet-dialog-modal>
 </div>
