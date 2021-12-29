@@ -99,6 +99,11 @@ class LivewireCustomCrudCommand extends Command
         $fileOrigin = base_path('/stubs/custom.livewire.crud.stub');
         $fileDestination = base_path('/app/Http/Livewire/' . $this->nameOfTheClass . '.php');
 
+        if ($this->file->exist($fileDestination)) {
+            $this->info('This class file already exists: ' . $this->nameOfTheClass . '.php');
+            return false;
+        }
+
         // Get the original string content of the file.
         $fileOriginalString = $this->file->get($fileOrigin);
 
@@ -128,6 +133,11 @@ class LivewireCustomCrudCommand extends Command
         // Set the origin and desination for the livewire class file
         $fileOrigin = base_path('/stubs/custom.livewire.crud.view.stub');
         $fileDestination = base_path('/resources/views/livewire/' . Str::kebab($this->nameOfTheClass) . '.blade.php');
+
+        if ($this->file->exist($fileDestination)) {
+            $this->info('This view file already exists: ' . Str::kebab($this->nameOfTheClass) . '.blade.php');
+            return false;
+        }
 
         // Copy the file to destination
         $this->file->copy($fileOrigin, $fileDestination);
