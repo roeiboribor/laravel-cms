@@ -46,6 +46,35 @@ class NavigationMenus extends Component
     }
 
     /**
+     * Loads the data based on modalId
+     *
+     * @return void
+     */
+    public function loadModel()
+    {
+        $data = NavigationMenu::find($this->modelId);
+        $this->label = $data->label;
+        $this->slug = $data->slug;
+        $this->type = $data->type;
+        $this->sequence = $data->sequence;
+    }
+
+    /**
+     * The data for the model
+     *
+     * @return label,slug,type,sequence
+     */
+    public function modelData()
+    {
+        return [
+            'label' => $this->label,
+            'slug' => $this->slug,
+            'type' => $this->type,
+            'sequence' => $this->sequence,
+        ];
+    }
+
+    /**
      * Create / Insert new Menu
      *
      * @return void
@@ -95,21 +124,6 @@ class NavigationMenus extends Component
     }
 
     /**
-     * The data for the model
-     *
-     * @return label,slug,type,sequence
-     */
-    public function modelData()
-    {
-        return [
-            'label' => $this->label,
-            'slug' => $this->slug,
-            'type' => $this->type,
-            'sequence' => $this->sequence,
-        ];
-    }
-
-    /**
      * Show modal when create button is clicked
      *
      * @return void
@@ -149,20 +163,6 @@ class NavigationMenus extends Component
         $this->modelId = $id;
         $this->modalFormVisible = true;
         $this->isDelete = true;
-    }
-
-    /**
-     * Loads the data based on modalId
-     *
-     * @return void
-     */
-    public function loadModel()
-    {
-        $data = NavigationMenu::find($this->modelId);
-        $this->label = $data->label;
-        $this->slug = $data->slug;
-        $this->type = $data->type;
-        $this->sequence = $data->sequence;
     }
 
     public function render()
