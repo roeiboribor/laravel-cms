@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
+use Illuminate\Filesystem\Filesystem;
 
 class LivewireCustomCrudCommand extends Command
 {
@@ -30,6 +31,7 @@ class LivewireCustomCrudCommand extends Command
      */
     protected $nameOfTheClass;
     protected $nameOfTheModelClass;
+    protected $file;
 
     /**
      * Create a new command instance.
@@ -39,6 +41,7 @@ class LivewireCustomCrudCommand extends Command
     public function __construct()
     {
         parent::__construct();
+        $this->file = new Filesystem();
     }
 
     /**
@@ -52,7 +55,10 @@ class LivewireCustomCrudCommand extends Command
         $this->gatherParameters();
 
         // Generate the Livewire Class File
+        $this->generateLivewireCrudClassfile();
+
         // Generate the Livewire View File
+        $this->generateLivewireCrudViewFile();
     }
 
     /**
@@ -89,5 +95,42 @@ class LivewireCustomCrudCommand extends Command
      */
     protected function generateLivewireCrudClassfile()
     {
+        // Set the origin and desination for the livewire class file
+        $fileOrigin = base_path('/stubs/custom.livewire.crud.stub');
+        $fileDestination = base_path('/app/Http/Livewire/' . $this->nameOfTheClass . '.php');
+
+        // Get the original string content of the file.
+        $fileOriginalString = $this->file->get($fileOrigin);
+
+        // Replace the strings specified in the array sequentially
+        $replaceFileOriginalString = Str::replaceArray(
+            '{{}}',
+            [
+                $this->nameOfTheModelClass,
+                $this->nameOfTheClass,
+                $this->nameOfTheModelClass,
+                $this->nameOfTheModelClass,
+                $this->nameOfTheModelClass,
+                $this->nameOfTheModelClass,
+                $this->nameOfTheModelClass,
+                Str::kebab($this->nameOfTheClass) // From "FooBar" to "foo-bar"
+            ],
+            $fileOriginalString
+        );
+        // Put the content into the destination directory
+        $this->file->put($fileDestination, $replaceFileOriginalString);
+
+        $this->info('Livewire class file created: ' . $fileDestination);
+    }
+
+    protected function generateLivewireCrudViewFile()
+    {
+        // Set the origin and desination for the livewire class file
+        $fileOrigin = base_path('/stubs/custom.livewire.crud.view.stub');
+        $fileDestination = base_path('/resources/views/livewire/' . Str::kebab($this->nameOfTheClass) . '.blade.php');
+
+        // Copy the file to destination
+        $this->file->copy($fileOrigin, $fileDestination);
+        $this->info('Livewire view file created: ' . $fileDestination);
     }
 }

@@ -2,12 +2,12 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\{{}};
+use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Validation\Rule;
 
-class {{}} extends Component
+class CustomCrud extends Component
 {
     use WithPagination;
     
@@ -38,7 +38,7 @@ class {{}} extends Component
      */
     public function loadModel()
     {
-        $data = {{}}::find($this->modelId);
+        $data = User::find($this->modelId);
         // Assign the variables here
     }
 
@@ -62,7 +62,7 @@ class {{}} extends Component
     public function create()
     {
         $this->validate();
-        {{}}::create($this->modelData());
+        User::create($this->modelData());
         $this->modalFormVisible = false;
         $this->reset();
     }
@@ -74,7 +74,7 @@ class {{}} extends Component
      */
     public function read()
     {
-        return {{}}::paginate(5);
+        return User::paginate(5);
     }
 
     /**
@@ -85,7 +85,7 @@ class {{}} extends Component
     public function update()
     {
         $this->validate();
-        {{}}::find($this->modelId)->update($this->modelData());
+        User::find($this->modelId)->update($this->modelData());
         $this->modalFormVisible = false;
     }
 
@@ -96,7 +96,7 @@ class {{}} extends Component
      */
     public function delete()
     {
-        {{}}::destroy($this->modelId);
+        User::destroy($this->modelId);
         $this->modalConfirmDeleteVisible = false;
         $this->resetPage();
         $this->reset();
@@ -145,7 +145,7 @@ class {{}} extends Component
 
     public function render()
     {
-        return view('livewire.{{}}', [
+        return view('livewire.custom-crud', [
             'data' => $this->read(),
         ]);
     }
