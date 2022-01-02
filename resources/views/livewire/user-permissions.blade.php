@@ -1,4 +1,10 @@
 <div class="p-6">
+    <div class="flex items-center justify-end px-4 py-3 text-right sm:px-6">
+        <x-jet-button wire:click="createShowModal">
+            {{ __('Save User Permission') }}
+        </x-jet-button>
+    </div>
+
     {{-- Data Table --}}
     <div class="flex flex-col">
         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -9,15 +15,11 @@
                             <tr>
                                 <th
                                     class="px-6 bg-gray-50 text-left text-xs py-4 font-medium text-gray-500 uppercase tracking-wider">
-                                    Name
-                                </th>
-                                <th
-                                    class="px-6 bg-gray-50 text-left text-xs py-4 font-medium text-gray-500 uppercase tracking-wider">
-                                    Email
-                                </th>
-                                <th
-                                    class="px-6 bg-gray-50 text-left text-xs py-4 font-medium text-gray-500 uppercase tracking-wider">
                                     Role
+                                </th>
+                                <th
+                                    class="px-6 bg-gray-50 text-left text-xs py-4 font-medium text-gray-500 uppercase tracking-wider">
+                                    Route Name
                                 </th>
                                 <th
                                     class="px-6 bg-gray-50 text-left text-xs py-4 font-medium text-gray-500 uppercase tracking-wider">
@@ -29,13 +31,10 @@
                             @foreach ($data as $item)
                             <tr>
                                 <td class="px-6 py-4 text-sm whitespace-no-wrap">
-                                    {{ $item->name }}
-                                </td>
-                                <td class="px-6 py-4 text-sm whitespace-no-wrap">
-                                    {{ $item->email }}
-                                </td>
-                                <td class="px-6 py-4 text-sm whitespace-no-wrap">
                                     {{ $item->role }}
+                                </td>
+                                <td class="px-6 py-4 text-sm whitespace-no-wrap">
+                                    {{ $item->route_name }}
                                 </td>
                                 <td class="px-6 py-4 text-right text-sm">
                                     <x-jet-button wire:click="updateShowModal({{ $item->id }})">
@@ -79,26 +78,33 @@
 
         <x-slot name="content">
             @if ($isDelete)
-            {{ __('Are you sure you want to delete this page? Once the page is deleted. all of its resources and data
-            will be permanently deleted.') }}
+            {{ __('Are you sure you want to delete this User Permission?') }}
             @else
-            <div class="mt-4">
-                <x-jet-label for="name" value="{{ __('Name') }}" />
-                <x-jet-input id="name" class="block mt-1 w-full text-center" type="text"
-                    wire:model.debounce.800ms="name" required />
-                @error('name') <span class="text-red-500">{{ $message }}</span> @enderror
-            </div>
-            <div class="mt-4">
-                <x-jet-label for="role" value="{{ __('Role') }}" />
-                <select id="role"
-                    class="mx-auto text-center appearance-none w-full mt-1 rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 shadow-sm"
-                    wire:model="role" required>
-                    <option value="">-- Select a Role --</option>
-                    @foreach ($userRoleList as $key => $value)
-                    <option value="{{ $key }}">{{ $value }}</option>
-                    @endforeach
-                </select>
-                @error('role') <span class="text-red-500">{{ $message }}</span> @enderror
+            <div class="mt-4 grid gap-4 grid-cols-1 md:grid-cols-2">
+                <div class="">
+                    <x-jet-label for="role" value="{{ __('Role') }}" />
+                    <select id="role"
+                        class="mx-auto appearance-none w-full mt-1 rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 shadow-sm"
+                        wire:model="role" required>
+                        <option value="">-- Select a Role --</option>
+                        @foreach ($userRoleList as $key => $value)
+                        <option value="{{ $key }}">{{ $value }}</option>
+                        @endforeach
+                    </select>
+                    @error('role') <span class="text-red-500">{{ $message }}</span> @enderror
+                </div>
+                <div class="">
+                    <x-jet-label for="routeName" value="{{ __('Route Name') }}" />
+                    <select id="routeName"
+                        class="mx-auto appearance-none w-full mt-1 rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 shadow-sm"
+                        wire:model="routeName" required>
+                        <option value="">-- Select a Route Name --</option>
+                        @foreach ($routeNameList as $item)
+                        <option value="{{ $item }}">{{ $item }}</option>
+                        @endforeach
+                    </select>
+                    @error('role') <span class="text-red-500">{{ $message }}</span> @enderror
+                </div>
             </div>
             @endif
         </x-slot>
