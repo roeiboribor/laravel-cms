@@ -58,8 +58,8 @@
 
                 {{-- Top Navigation Mobile Web View --}}
                 <ul class="text-gray-200 text-xs">
-                    @if ($sidebarLinks->count())
-                    @foreach ($sidebarLinks as $item)
+                    @if ($topNavLinks->count())
+                    @foreach ($topNavLinks as $item)
                     <a href="{{ url('/'.$item->slug) }}">
                         <li class="cursor-pointer px-4 py-2 hover:bg-gray-800">
                             {{ $item->label }}
